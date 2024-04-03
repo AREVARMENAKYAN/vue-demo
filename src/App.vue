@@ -43,8 +43,6 @@ export default {
 
     <h4>{{ `The email is ${isEmailvalid ? 'valid' : 'invalid'}` }}</h4>
 
-
-
   </main>
 </template>
 
