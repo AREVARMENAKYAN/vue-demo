@@ -1,99 +1,59 @@
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
 
 export default {
 
   data() {
     return {
-      inputEmail: '',
-      emailValid: false,
-      checkedEmail: '',
-      isEmailChecked: false,
-    }
+      email: '',
+      isEmailvalid: false,
+    };
   },
 
   methods: {
+    openEmailPrompt() {
+      let email = prompt('Input your email');
+      if (!email) {
+        this.isEmailvalid = false;
+        return;
+      }
+      email = email.trim();
+      this.email = email;
+      const isValid = this.checkIsEmailValid(email);
+      this.isEmailvalid = isValid;
+    },
 
-    validateEmail(email) {
+
+    checkIsEmailValid(email) {
       const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
       return emailRegex.test(email);
     },
 
-    checkEmail() {
-      const email = prompt('Please enter your email');
-      if (email) {
-        this.checkedEmail = email;
-        this.isEmailChecked = true;
-        this.emailValid = this.validateEmail(email);
-      }
-    },
-
-    resetEmail() {
-      this.inputEmail = '';
-      this.checkedEmail = '';
-      this.emailValid = false;
-      this.isEmailChecked = false;
-    }
 
   }
 }
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
   <main>
-
-    <button @click="checkEmail">Input Email</button>
-    <button @click="resetEmail">Reset</button>
-    <div v-if="isEmailChecked">
-      <h1 :style="{ borderColor: emailValid ? 'green' : 'red' }">{{ checkedEmail }}</h1>
-      <h4 v-if="emailValid">The email is valid</h4>
-      <h4 v-else>The email is invalid</h4>
+    <button @click="openEmailPrompt()">Input your email</button>
+    <div v-if="email">
+      <h1 class="green" v-if="isEmailvalid">{{ email }}</h1>
+      <h1 class="red" v-else>{{ email }}</h1>
     </div>
 
+    <h4>{{ `The email is ${isEmailvalid ? 'valid' : 'invalid'}` }}</h4>
 
 
-    <TheWelcome />
+
   </main>
 </template>
 
 <style scoped>
-h1 {
-  border: 2px solid;
+.red {
+  border: 1px solid red;
 }
 
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.green {
+  border: 1px solid green;
 }
 </style>
