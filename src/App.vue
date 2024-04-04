@@ -5,7 +5,7 @@ export default {
   data() {
     return {
       email: '',
-      isEmailvalid: false,
+      isEmailValid: false,
     };
   },
 
@@ -13,13 +13,13 @@ export default {
     openEmailPrompt() {
       let email = prompt('Input your email');
       if (!email) {
-        this.isEmailvalid = false;
+        this.isEmailValid = false;
         return;
       }
       email = email.trim();
       this.email = email;
       const isValid = this.checkIsEmailValid(email);
-      this.isEmailvalid = isValid;
+      this.isEmailValid = isValid;
     },
 
 
@@ -29,6 +29,10 @@ export default {
     },
 
 
+    reset() {
+      this.email = '';
+      this.isEmailValid = false;
+    }
   }
 }
 </script>
@@ -36,12 +40,15 @@ export default {
 <template>
   <main>
     <button @click="openEmailPrompt()">Input your email</button>
-    <div v-if="email">
-      <h1 class="green" v-if="isEmailvalid">{{ email }}</h1>
+    <button @click="reset()">Reset</button>
+    <!-- <div v-if="email">
+      <h1 class="green" v-if="isEmailValid">{{ email }}</h1>
       <h1 class="red" v-else>{{ email }}</h1>
-    </div>
+    </div> -->
 
-    <h4>{{ `The email is ${isEmailvalid ? 'valid' : 'invalid'}` }}</h4>
+    <h1 :class="isEmailValid ? 'green' : 'red'" v-if="email">{{ email }}</h1>
+
+    <h4 v-if="email">{{ `The email is ${isEmailValid ? 'valid' : 'invalid'}` }}</h4>
 
   </main>
 </template>
